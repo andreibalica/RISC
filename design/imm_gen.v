@@ -7,26 +7,22 @@ module imm_gen(
     
     always@(*) begin
         case(in[6:0])
-            // LW (I-type)
+            // lw (I-type)
             7'b0000011: begin
                 out = {{21{in[31]}}, in[30:25], in[24:21], in[20]};
-            end
-                
-            // ADDI + ANDI + ORI + XORI + SLTI + SLTIU + SRLI + SRAI (I-type)
+            end                
+            // addi + andi + ori + xori + slti + sltiu + srli + srai (I-type)
             7'b0010011: begin
                 out = {{21{in[31]}}, in[30:25], in[24:21], in[20]};
-            end
-            
-            // SW (S-type)
+            end            
+            // sw (S-type)
             7'b0100011: begin
                 out = {{21{in[31]}}, in[30:25], in[11:8], in[7]};
-            end
-            
-            // BEQ + BNE + BLT + BGE + BLTU + BGEU (B-type)
+            end            
+            // beq + bne + blt + bge + bltu + bgeu (B-type)
             7'b1100011: begin
                 out = {{20{in[31]}}, in[7], in[30:25], in[11:8], 1'b0};
-            end
-            
+            end           
             default: begin
                 out = 32'd0;
             end

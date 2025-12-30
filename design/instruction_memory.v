@@ -1,21 +1,26 @@
 `timescale 1ns / 1ps
 
 module instruction_memory(
+    input clk,
+    input res,
     input [9:0] address,
     output reg [31:0] instruction
     );
     
-    reg [31:0] mem [0:1023];
-
-    integer i;
+    reg [31:0] rom [0:1023];
+    
     initial begin
-        for (i=0; i<=1023; i=i+1)
-            mem[i] = 8'h00; 
-        $readmemb("code.mem", mem);
+        $readmemh("instructions.mem", rom);
+    end
+
+    always @(posedge clk or negedge res) begin
+        if (!res) begin
+            $readmemh("instructions.mem", rom);
+        end
     end
 
     always@(*) begin
-        instruction = mem[address];
+        instruction = rom[address];
     end
 
 endmodule

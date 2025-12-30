@@ -10,12 +10,15 @@ module REG_IF_ID(
     
     always @(posedge clk or negedge res) begin
         if(!res) begin
-            instruction_out <= 32'h0;
+            PC_out <= 32'd0;
+            instruction_out <= 32'd0;
         end else if(write) begin
+            PC_out <= PC_in;
             instruction_out <= instruction_in;
+        end else begin
+            PC_out <= 32'dx;
+            instruction_out <= 32'dx;
         end
-        PC_out <= PC_in;
-        
     end
     
 endmodule
